@@ -1,0 +1,56 @@
+{
+    "clientes": [
+        {
+            "nome": "Maria de Lurdes",
+            "contacto": "962333541"
+        },
+        {
+            "nome": "Ana da Conceição ",
+            "contacto": "965478321"
+        },
+        {
+            "nome": "Margarida Ribeiro",
+            "contacto": "922333666"
+        }
+    ],
+    "servicos": [
+        {
+            "nome": "Pintura",
+            "preco_base": 300
+        },
+        {
+            "nome": "Restauro de madeira",
+            "preco_base": 400
+        },
+        {
+            "nome": "Envernizamento",
+            "preco_base": 250
+        }
+    ],
+    "encomendas": [
+        {
+            "descricao_peca": "Cómoda em madeira em verniz, para pintar em branco pedra",
+            "cliente": "Maria de Lurdes",
+            "servico": "Pintura",
+            "prazo": "15-07-2026",
+            "preco": 400.0,
+            "estado": "Em progresso"
+        },
+        {
+            "descricao_peca": "Mesa redonda com 6 cadeiras",
+            "cliente": "Margarida Ribeiro",
+            "servico": "Restaurar a madeira e deixar cor natural ",
+            "prazo": "12-06-2026",
+            "preco": 450.0,
+            "estado": "Em progresso"
+        },
+        {
+            "descricao_peca": "Mesas de cabeiceia",
+            "cliente": "Ana da Conceição ",
+            "servico": "Recuperar verniz da peça e passar um mais escuro",
+            "prazo": "15-06-2026",
+            "preco": 250.0,
+            "estado": "Em progresso"
+        }
+    ]
+}
