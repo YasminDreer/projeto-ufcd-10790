@@ -296,3 +296,64 @@ def relatorio_por_estado():
                 contador = contador + 1
         print(estado + ": " + str(contador))
         
+# ============================================================
+#              O MENU PRINCIPAL 
+# ============================================================
+ 
+def mostrar_menu():
+    print("\n========================================")
+    print("   GESTAO DE ENCOMENDAS DE RESTAURO")
+    print("========================================")
+    print("1)  Registar cliente")
+    print("2)  Listar clientes")
+    print("3)  Consultar servicos")
+    print("4)  Criar encomenda")
+    print("5)  Atualizar estado de uma encomenda")
+    print("6)  Listar todas as encomendas")
+    print("7)  Filtrar encomendas")
+    print("8)  Ver encomendas em atraso")
+    print("9)  Relatorio de faturacao")
+    print("10) Relatorio por estado")
+    print("0)  Sair")
+ 
+ 
+# ---- arranque da aplicacao ----
+clientes, servicos, encomendas = ler_dados()
+ 
+# na primeira vez que corre, criar os servicos base
+if len(servicos) == 0:
+    servicos.append(Servico("Pintura", 300))
+    servicos.append(Servico("Restauro de madeira", 400))
+    servicos.append(Servico("Envernizamento", 250))
+    guardar_dados(clientes, servicos, encomendas)
+ 
+# ---- ciclo do menu ----
+while True:
+    mostrar_menu()
+    opcao = input("\nEscolhe uma opcao: ")
+ 
+    if opcao == "1":
+        registar_cliente()
+    elif opcao == "2":
+        listar_clientes()
+    elif opcao == "3":
+        listar_servicos()
+    elif opcao == "4":
+        criar_encomenda()
+    elif opcao == "5":
+        atualizar_estado()
+    elif opcao == "6":
+        listar_encomendas()
+    elif opcao == "7":
+        filtrar_encomendas()
+    elif opcao == "8":
+        encomendas_em_atraso()
+    elif opcao == "9":
+         relatorio_faturacao()
+    elif opcao == "10":
+        relatorio_por_estado()
+    elif opcao == "0":
+        print("A sair... Ate breve!")
+        break
+    else:
+        print("Opcao invalida. Tenta de novo.")

@@ -1,117 +1,72 @@
 # src/
 
-Esta pasta contém todo o código fonte Python do projeto,
-organizado segundo a arquitetura em três camadas.
+Esta pasta contém o código fonte Python do projeto.
 
 ## Estrutura
 
 ```
 src/
 │
-├── main.py          ← Ponto de entrada — executa a aplicação
-│
-├── dal/             ← Data Access Layer (Acesso a Dados)
-│   ├── __init__.py
-│   └── [nome]_dal.py    ← ex: produto_dal.py, utilizador_dal.py
-│
-├── bll/             ← Business Logic Layer (Lógica de Negócio)
-│   ├── __init__.py
-│   └── [nome]_bll.py    ← ex: produto_bll.py, utilizador_bll.py
-│
-└── ui/              ← Interface com o utilizador
-    ├── __init__.py
-    └── menu.py          ← Menus e interação com o utilizador
+├── main.py        ← Aplicação completa (classes, funções e menu)
+└── dados.json     ← Dados guardados (criado automaticamente ao executar)
 ```
 
-## Responsabilidades de cada camada
+## Organização do `main.py`
 
-### `main.py`
-Inicializa a aplicação — cria a ligação à BD, instancia o DAL e o BLL,
-e arranca a interface. Não deve conter lógica de negócio.
+O ficheiro está dividido em quatro partes:
+
+### 1. Classes
+Definem os "moldes" dos dados do sistema:
+
+- `Cliente` — nome e contacto
+- `Servico` — nome e preço base
+- `Encomenda` — descrição da peça, cliente, serviço, prazo, preço e estado
 
 ```python
-from dal.produto_dal import ProdutoDAL
-from bll.produto_bll import ProdutoBLL
-from ui.menu import Menu
-
-if __name__ == "__main__":
-    dal = ProdutoDAL("database.db")
-    bll = ProdutoBLL(dal)
-    menu = Menu(bll)
-    menu.iniciar()
+class Cliente:
+    def __init__(self, nome, contacto):
+        self.nome = nome
+        self.contacto = contacto
 ```
 
-### `dal/`
-Responsável por toda a comunicação com a base de dados.
-Cada ficheiro corresponde a uma entidade do sistema.
+### 2. Persistência (JSON)
+Funções responsáveis por guardar e ler os dados no ficheiro `dados.json`.
+Os objetos são convertidos em dicionários para serem gravados, e
+reconstruídos em objetos quando o programa volta a abrir.
 
-```python
-# dal/produto_dal.py
-import sqlite3
+- `guardar_dados(clientes, servicos, encomendas)` — escreve no ficheiro
+- `ler_dados()` — lê o ficheiro (ou devolve listas vazias na primeira execução)
 
-class ProdutoDAL:
-    def __init__(self, db_path):
-        self._db = db_path
+### 3. Funções de operação
+Uma função para cada funcionalidade da aplicação (requisitos RF01 a RF10):
 
-    def obter_todos(self):
-        conn = sqlite3.connect(self._db)
-        try:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM produtos")
-            return cursor.fetchall()
-        finally:
-            conn.close()
+| Função                  | Funcionalidade                          |
+|-------------------------|-----------------------------------------|
+| `registar_cliente()`    | Registar um novo cliente                |
+| `listar_clientes()`     | Listar os clientes                      |
+| `listar_servicos()`     | Consultar os serviços disponíveis       |
+| `criar_encomenda()`     | Criar uma nova encomenda                |
+| `atualizar_estado()`    | Mudar o estado de uma encomenda         |
+| `listar_encomendas()`   | Listar todas as encomendas              |
+| `filtrar_encomendas()`  | Filtrar por estado ou por cliente       |
+| `encomendas_em_atraso()`| Mostrar encomendas com prazo ultrapassado |
+| `relatorio_faturacao()` | Calcular a faturação total              |
+| `relatorio_por_estado()`| Contar encomendas por estado            |
+
+### 4. Menu principal
+Um ciclo `while True` que mostra o menu, lê a opção escolhida pelo
+utilizador e chama a função correspondente. É também aqui que a aplicação
+carrega os dados guardados ao arrancar e cria os serviços iniciais na
+primeira execução.
+
+## Como executar
+
+```bash
+cd src
+python main.py
 ```
 
-### `bll/`
-Contém as regras de negócio. Não sabe como os dados são guardados —
-delega essa responsabilidade ao DAL.
+> Em alguns sistemas, usar `python3 main.py`.
 
-```python
-# bll/produto_bll.py
-class ProdutoBLL:
-    def __init__(self, dal):
-        self._dal = dal
-
-    def listar_produtos(self):
-        return self._dal.obter_todos()
-
-    def adicionar_produto(self, nome, preco, stock):
-        if not nome:
-            raise ValueError("O nome do produto é obrigatório.")
-        if preco < 0:
-            raise ValueError("O preço não pode ser negativo.")
-        return self._dal.inserir(nome, preco, stock)
-```
-
-### `ui/`
-Gere a interação com o utilizador — menus, inputs, outputs.
-Não deve conter lógica de negócio nem queries SQL.
-
-```python
-# ui/menu.py
-class Menu:
-    def __init__(self, bll):
-        self._bll = bll
-
-    def iniciar(self):
-        while True:
-            print("\n1 - Listar produtos")
-            print("2 - Adicionar produto")
-            print("0 - Sair")
-            opcao = input("Opção: ")
-            if opcao == "0":
-                break
-            elif opcao == "1":
-                self._listar()
-
-    def _listar(self):
-        produtos = self._bll.listar_produtos()
-        for p in produtos:
-            print(p)
-```
-
-## Nota sobre `__init__.py`
-
-Os ficheiros `__init__.py` (que podem estar vazios) são necessários para que
-Python trate as pastas `dal/`, `bll/` e `ui/` como módulos importáveis.
+O ficheiro `dados.json` é criado automaticamente na mesma pasta na primeira
+vez que a aplicação corre.
