@@ -1,0 +1,66 @@
+{
+  "simultaneo": true,
+  "vitorias": {
+    "X": 1
+  },
+  "jogos": [
+    {
+      "nlinhas": 3,
+      "njogadores": 2,
+      "jogadores": [
+        "X",
+        "O"
+      ],
+      "tabuleiro": [
+        [
+          "X",
+          ".",
+          "."
+        ],
+        [
+          ".",
+          ".",
+          "."
+        ],
+        [
+          ".",
+          ".",
+          "."
+        ]
+      ],
+      "jogadorAtual": 1,
+      "totjogadas": 1,
+      "terminado": false,
+      "vencedor": null
+    },
+    {
+      "nlinhas": 3,
+      "njogadores": 2,
+      "jogadores": [
+        "X",
+        "O"
+      ],
+      "tabuleiro": [
+        [
+          ".",
+          ".",
+          "."
+        ],
+        [
+          ".",
+          ".",
+          "."
+        ],
+        [
+          ".",
+          ".",
+          "X"
+        ]
+      ],
+      "jogadorAtual": 1,
+      "totjogadas": 1,
+      "terminado": false,
+      "vencedor": null
+    }
+  ]
+}
