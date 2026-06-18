@@ -11,11 +11,11 @@
 | Campo            | Detalhe                              |
 |------------------|--------------------------------------|
 | **Curso**        | UFCD 10790 – Projeto de Programação  |
-| **Formando**     | [O teu nome completo]                |
-| **Formador**     | [Nome do formador]                   |
-| **Instituição**  | [Nome da instituição / empresa]      |
+| **Formando**     | Yasmin Mota Dreer de Resende         |
+| **Formador**     | Carlos Barata                        |
+| **Instituição**  | IEFP                                 |
 | **Data de início** | [dd/mm/aaaa]                       |
-| **Data de entrega** | [dd/mm/aaaa]                      |
+| **Data de entrega** | 19/06/2026                        |
 | **Versão**       | 1.0                                  |
 
 ---
