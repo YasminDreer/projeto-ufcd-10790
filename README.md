@@ -1,8 +1,6 @@
-# Nome do Projeto
+**Sistema de Gestão de Encomendas de Restauro**
 
-> Breve descrição do projeto numa ou duas frases. O que faz a aplicação? Para quem?
-
-**Exemplo:** *Sistema de gestão de uma biblioteca pessoal que permite registar livros, autores e empréstimos.*
+Aplicação de consola que ajuda um pequeno negócio de restauro e pintura de mobiliário (Rose Maria Restauros) a gerir clientes, serviços e encomendas acompanhando o estado de cada peça, os prazos de entrega e a faturação.
 
 ---
 
@@ -27,8 +25,8 @@
 - [Estrutura do Repositório](#estrutura-do-repositório)
 - [Requisitos Técnicos](#requisitos-técnicos)
 - [Como Instalar e Executar](#como-instalar-e-executar)
-- [Base de Dados](#base-de-dados)
-- [Arquitetura](#arquitetura)
+- [Persistência de Dados](#persistênciadedados)
+- [Estrutura do Código](#estruturadocódigo)
 - [Documentação](#documentação)
 - [Estado do Projeto](#estado-do-projeto)
 
@@ -36,76 +34,68 @@
 
 ## Descrição
 
-Explica aqui o projeto com um pouco mais de detalhe do que na frase de abertura.
+O Sistema de Gestão de Encomendas de Restauro é uma aplicação de consola desenvolvida em Python para apoiar a gestão diária de um pequeno negócio de restauro e pintura de mobiliário.
 
-- Qual o problema que resolve?
-- Quem são os utilizadores?
-- Qual a abordagem técnica (ex: aplicação de consola em Python com base de dados SQLite)?
+
+Problema que resolve: ateliês de pequena dimensão organizam as encomendas de forma manual (cadernos, folhas soltas, memória), o que leva a perda de informação, prazos esquecidos e ausência de uma visão clara da faturação. Esta aplicação centraliza tudo num único sítio.
+Utilizadores: o gestor do ateliê (utilizador único). A aplicação é uma ferramenta interna de gestão — os clientes não acedem ao sistema.
+Abordagem técnica: aplicação de consola em Python, com persistência dos dados num ficheiro JSON local. Não utiliza base de dados nem interface gráfica, mantendo-se simples, portátil e fácil de executar.
 
 ---
 
 ## Funcionalidades
 
-Lista as principais funcionalidades implementadas:
-
-- [ ] Funcionalidade 1 — ex: Registo de utilizador
-- [ ] Funcionalidade 2 — ex: Login com autenticação
-- [ ] Funcionalidade 3 — ex: Listagem de produtos
-- [ ] Funcionalidade 4 — ex: ...
-
-> As checkboxes ficam marcadas (`[x]`) à medida que implementas cada funcionalidade.
+ [X]RF01 — Registar clientes (nome e contacto)
+ [X]RF02 — Listar clientes registados
+ [X]RF03 — Consultar serviços disponíveis e respetivos preços base
+ [X]RF04 — Criar encomendas (cliente, serviço, descrição da peça, prazo e preço)
+ [X]RF05 — Atualizar o estado de uma encomenda (Recebida → Em progresso → Concluída → Entregue)
+ [X]RF06 — Listar todas as encomendas
+ [X]RF07 — Filtrar encomendas por estado e por cliente
+ [X]RF08 — Identificar encomendas em atraso
+ [X]RF09 — Relatório de faturação total
+ [X]RF10 — Relatório de encomendas por estado
+ [X]RF11 — Persistência dos dados em ficheiro JSON
 
 ---
 
 ## Estrutura do Repositório
 
 ```
-projeto_ufcd10790/
+projeto-ufcd-10790/
 │
 ├── README.md               ← Este ficheiro — apresentação do projeto
 ├── .gitignore              ← Ficheiros a ignorar pelo Git
 │
 ├── src/                    ← Código fonte Python
-│   ├── main.py             ← Ponto de entrada da aplicação
-│   ├── dal/                ← Data Access Layer
-│   │   └── ...
-│   ├── bll/                ← Business Logic Layer
-│   │   └── ...
-│   └── ui/                 ← Interface com o utilizador
-│       └── ...
+│   ├── main.py             ← Aplicação completa (classes, funções e menu)
+│   └── dados.json          ← Dados guardados (criado automaticamente ao executar)
 │
-├── sql/                    ← Scripts SQL (opcional)
-│   ├── criar_tabelas.sql   ← DDL — criação do esquema
-│   └── dados_exemplo.sql   ← Dados iniciais de teste
-│
-├── docs/                   ← Toda a documentação do projeto
-│   ├── relatorio.docx      ← Relatório final do projeto
+├── docs/                   ← Documentação do projeto
+│   ├── ambito.docx         ← Documento de âmbito do projeto
 │   ├── requisitos.xlsx     ← Levantamento de requisitos (RF e RNF)
+│   ├── cronograma.md       ← Cronograma das atividades (Gantt)
+│   ├── relatorio.docx      ← Relatório final do projeto
 │   ├── manual_utilizador.docx  ← Manual de utilização da aplicação
-│   └── manual_tecnico.docx     ← Manual de instalação e configuração
+│   └── manual_tecnico.docx     ← Manual de instalação e execução
 │
 ├── assets/                 ← Recursos visuais e apresentação
-│   ├── apresentacao.pptx   ← Apresentação final
-│   ├── diagrama_arquitetura.png  ← Diagrama de arquitetura do sistema
-│   └── diagrama_bd.png          ← Diagrama da base de dados (se aplicável)
+│   └── apresentacao.pptx   ← Apresentação final
 │
-└── tests/                  ← Testes (opcional mas recomendado)
-    └── test_bll.py         ← Testes à camada de negócio
+└── tests/                  ← Testes (opcional)
 ```
 
 ---
 
 ## Requisitos Técnicos
 
-- Python 3.10 ou superior
-- Bibliotecas necessárias (lista aqui as que usas):
-  - `sqlite3` — incluído no Python (não precisa de instalação)
-  - *(adiciona outras se necessário, ex: `bcrypt`, `tabulate`)*
+Python 3.10 ou superior
+Bibliotecas: apenas a biblioteca padrão do Python — não é necessário instalar nada externo:
 
-Para instalar dependências externas (se houver):
+json — leitura e escrita dos dados (incluído no Python)
+datetime — cálculo das encomendas em atraso (incluído no Python)
 
-```bash
-pip install -r requirements.txt
+Como o projeto só usa módulos incluídos no Python, não existe ficheiro requirements.txt nem dependências a instalar.
 ```
 
 ---
@@ -115,20 +105,15 @@ pip install -r requirements.txt
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/[teu-utilizador]/[nome-do-repositorio].git
-cd [nome-do-repositorio]
+git clone https://github.com/YasminDreer/projeto-ufcd-10790.git
+cd projeto-ufcd-10790
 ```
 
 ### 2. (Opcional) Criar ambiente virtual
 
 ```bash
-python -m venv venv
-
-# Windows
-venv\Scripts\activate
-
-# macOS / Linux
-source venv/bin/activate
+cd src
+python main.py
 ```
 
 ### 3. Instalar dependências
@@ -143,44 +128,44 @@ pip install -r requirements.txt
 cd src
 python main.py
 ```
-
+Na primeira execução, a aplicação cria automaticamente o ficheiro dados.json e os serviços iniciais. Não é preciso configurar mais nada.
 ---
 
-## Base de Dados
+**##Persistência de Dados**
 
-> Preenche esta secção se o projeto usa base de dados.
+A aplicação não usa base de dados. Toda a informação (clientes, serviços e encomendas) é guardada num ficheiro de texto no formato JSON:
 
-- **Sistema:** SQLite (ficheiro local) / *outro se aplicável*
-- **Ficheiro:** `src/database.db` *(criado automaticamente na primeira execução)*
-- **Esquema:** ver [`sql/criar_tabelas.sql`](sql/criar_tabelas.sql)
+Ficheiro: src/dados.json
+Criação: automática, na primeira vez que a aplicação corre
+Atualização: o ficheiro é regravado sempre que se regista, cria ou altera algum dado, garantindo que nada se perde entre utilizações
 
-Para inicializar a base de dados manualmente a partir dos scripts SQL:
 
-```bash
-sqlite3 database.db < sql/criar_tabelas.sql
-sqlite3 database.db < sql/dados_exemplo.sql
+Esta abordagem mantém o projeto simples e portátil — basta o ficheiro main.py e o dados.json para a aplicação funcionar em qualquer computador com Python.
 ```
 
 ---
 
-## Arquitetura
+**##Estrutura do Código**
 
-O projeto segue uma arquitetura em três camadas:
+O código está todo no ficheiro src/main.py, organizado em quatro partes claras:
 
 ```
-┌─────────────────────────────┐
-│     UI — Interface          │  Interação com o utilizador
-├─────────────────────────────┤
-│     BLL — Lógica de Negócio │  Regras e validações
-├─────────────────────────────┤
-│     DAL — Acesso a Dados    │  Queries e persistência
-├─────────────────────────────┤
-│     Base de Dados           │  SQLite / outro
-└─────────────────────────────┘
+main.py
+│
+├── 1. CLASSES          → Cliente, Servico, Encomenda (os "moldes" dos dados)
+│
+├── 2. PERSISTÊNCIA     → guardar_dados() e ler_dados() (ficheiro JSON)
+│
+├── 3. FUNÇÕES          → uma função por operação:
+│                          registar_cliente, listar_clientes, listar_servicos,
+│                          criar_encomenda, atualizar_estado, listar_encomendas,
+│                          filtrar_encomendas, encomendas_em_atraso,
+│                          relatorio_faturacao, relatorio_por_estado
+│
+└── 4. MENU             → ciclo principal que mostra as opções e chama
+                          a função correspondente à escolha do utilizador
 ```
-
-O diagrama completo está em [`assets/diagrama_arquitetura.png`](assets/diagrama_arquitetura.png).
-
+A aplicação usa Programação Orientada a Objetos (classes para representar os dados) e tratamento de exceções (try/except) para validar as entradas do utilizador e evitar que o programa termine inesperadamente.
 ---
 
 ## Documentação
@@ -199,12 +184,12 @@ O diagrama completo está em [`assets/diagrama_arquitetura.png`](assets/diagrama
 
 ```
 Sessão 1 — Requisitos        ✅ Concluído
-Sessão 2 — Arquitetura       ✅ Concluído
-Sessão 3 — Desenvolvimento 1 🔄 Em curso
-Sessão 4 — Desenvolvimento 2 ⏳ Pendente
-Sessão 5 — Apresentação      ⏳ Pendente
+Sessão 2 — Desenho           ✅ Concluído
+Sessão 3 — Desenvolvimento 1 ✅ Concluído
+Sessão 4 — Desenvolvimento 2 ✅ Concluído
+Sessão 5 — Apresentação      🔄 Em curso
 ```
 
 ---
 
-*UFCD 10790 – Projeto de Programação | [Ano letivo]*
+*UFCD 10790 – Projeto de Programação | 2026*
